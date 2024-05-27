@@ -38,12 +38,10 @@ MAVEN_DEPENDENCY_VERSIONS = {
         "version": "0.1.1",
     },
     "rules_proto": {
-        # Note that rules_proto doesn't have any shipped versions, so the workspace needs to pin to a
-        # specific commit hash.
-        "sha": "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
+        "sha": "e017528fd1c91c5a33f15493e3a398181a9e821a804eb7ff5acdd1d2d6c2b18d",
         "strip_prefix": "rules_proto-{0}",
-        "url": "https://github.com/bazelbuild/rules_proto/archive/{0}.tar.gz",
-        "version": "97d8af4dc474595af3900dd85cb3a29ad28cc313",
+        "url": "https://github.com/bazelbuild/rules_proto/archive/refs/tags/{0}.tar.gz",
+        "version": "4.0.0-3.20.0",
     },
     "rules_python": {
         "sha": "934c9ceb552e84577b0faf1e5a2f0450314985b4d8712b2b70717dc679fdc01b",
