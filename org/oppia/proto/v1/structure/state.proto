@@ -97,6 +97,9 @@ message InteractionInstanceDto {
     // An interaction for inputting numeric equations.
     NumericExpressionInputInstanceDto numeric_expression_input = 12;
 
+    // An interaction for inputting numbers with units attached.
+    NumberWithUnitsInputInstanceDto number_with_units_input = 14;
+
     // An interaction that represents the end of an exploration and takes no direct user input other
     // than navigating away from the exploration. This is not used in question play sessions.
     EndExplorationInstanceDto end_exploration = 13;
@@ -1147,7 +1150,7 @@ message AlgebraicExpressionInputInstanceDto {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
       MatchesUpToTrivialManipulationsSpecDto matches_up_to_trivial_manipulations = 2;
-  
+
       IsEquivalentToSpecDto is_equivalent_to = 3;
     }
 
@@ -1233,7 +1236,7 @@ message MathEquationInputInstanceDto {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
       MatchesUpToTrivialManipulationsSpecDto matches_up_to_trivial_manipulations = 2;
-  
+
       IsEquivalentToSpecDto is_equivalent_to = 3;
     }
 
@@ -1319,7 +1322,7 @@ message NumericExpressionInputInstanceDto {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
       MatchesUpToTrivialManipulationsSpecDto matches_up_to_trivial_manipulations = 2;
-  
+
       IsEquivalentToSpecDto is_equivalent_to = 3;
     }
 
@@ -1352,6 +1355,69 @@ message NumericExpressionInputInstanceDto {
 
     // The correct answer for this interaction that should be shown to the user.
     string correct_answer = 2;
+  }
+}
+
+// Represents an interaction where the user can input an numeric answer with units. Details:
+// - Answer type: NumberWithUnits
+// - Has a default outcome: yes
+// - Has support for showing hints: yes
+// - Has support for showing a solution: yes
+message NumberWithUnitsInputInstanceDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+  // The default outcome for this interaction.
+  OutcomeDto default_outcome = 1;
+
+  // The hints corresponding to this interaction.
+  repeated HintDto hints = 2;
+
+  // The answer groups for this interaction.
+  repeated AnswerGroupDto answer_groups = 3;
+
+  // The solution corresponding to this interaction.
+  SolutionDto solution = 4;
+
+  message AnswerGroupDto {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+    // The base properties of the answer group.
+    BaseAnswerGroupDto base_answer_group = 1;
+
+    // The list of all rules to match for this answer group.
+    repeated RuleSpecDto rule_specs = 2;
+  }
+
+  message RuleSpecDto {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+    oneof rule_type {
+      IsEqualToSpecDto is_equal_to = 1;
+
+      IsEquivalentToSpecDto is_equivalent_to = 2;
+    }
+
+    message IsEqualToSpecDto {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+      NumberWithUnitsDto number_with_units = 1;
+    }
+
+    message IsEquivalentToSpecDto {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+      NumberWithUnitsDto number_with_units = 1;
+    }
+  }
+
+  message SolutionDto {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+    // The base properties of the solution.
+    BaseSolutionDto base_solution = 1;
+
+    // The correct answer for this interaction that should be shown to the user.
+    NumberWithUnitsDto correct_answer = 2;
   }
 }
 

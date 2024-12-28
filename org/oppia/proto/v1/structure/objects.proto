@@ -76,7 +76,6 @@ message TranslatableSetOfNormalizedStringDto {
 
 // Proto representing an image that is overlaid with labeled regions.
 message ImageWithRegionsDto {
-
   // The filepath of the image, which will be prefixed with '[exploration_id]/assets'.
   string image_file_path = 1;
 
@@ -106,5 +105,32 @@ message ImageWithRegionsDto {
       // The bottom-right corner of the rectangle, in normalized coordinates.
       NormalizedPoint2dDto bottom_right = 2;
     }
+  }
+}
+
+// Proto representing a physical quantity with both a numeric and unit component. The numeric
+// portion can take different forms (such as a real number or a fraction).
+message NumberWithUnitsDto {
+  // The units corresponding to this physical quantity. There may be more than one, e.g. m/s^2 would
+  // have one unit of m^1 and a second unit of s^-2.
+  repeated Unit units = 1;
+
+  // The type of number represented in this physical quantity.
+  oneof type {
+    // Corresponds to a real numeric quantity, such as 10.5m/s^2.
+    double real = 2;
+
+    // Corresponds to a fractional numeric quantity, such as 1/2m/s^2.
+    FractionDto fraction = 3;
+  }
+
+  // Represents either a multiplication or division unit, such as m/s.
+  message Unit {
+    // The human-readable name of the unit, such as 'm' for meters.
+    string label = 1;
+
+    // The exponent of the unit, such as '1' for 'm' in 2m, or '-2' for 's' in 2m/s^2. The sign of
+    // this exponent indicates whether this unit is a multiplied or divided unit.
+    int32 exponent = 2;
   }
 }
